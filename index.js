@@ -52,12 +52,39 @@ layui.config({
 		
 	}
 	
+    QueryString();
+    
+	//构造参数对象并初始化 
+    function QueryString(){
+        console.log('QueryString');
+        var name,value,i;
+        var values=[]; 
+        var str=location.href;//获得浏览器地址栏URL串 
+        var num=str.indexOf("?") 
+        str=str.substr(num+1);//截取“?”后面的参数串 
+        var arrtmp=str.split("&");//将各参数分离形成参数数组 
+        for(i=0;i < arrtmp.length;i++)
+        { 
+            num=arrtmp[i].indexOf("="); 
+            if(num>0)
+            { 
+                name=arrtmp[i].substring(0,num);//取得参数名称 
+                value=arrtmp[i].substr(num+1);//取得参数值 
+                //this[name]=value;//定义对象属性并初始化 
+                values.push([name,value]);
+            }
+        }
+        console.log(values);
+        if(values.length>0){
+            parserPage(values);
+        }
+    } 
 	
-	function parserPage(){
+	function parserPage(values){
 	    console.log('parserpages');
         var valuseHtml='';
         
-        var values=[['撕得粉碎当1','https://www.baidu.com'],['撕得粉碎当2','https://www.baidu.com'],['撕得粉碎当3','https://www.baidu.com']];
+        //var values=[['撕得粉碎当1','https://www.baidu.com'],['撕得粉碎当2','https://www.baidu.com'],['撕得粉碎当3','https://www.baidu.com']];
         
         
         for(var i=0;i<values.length;i++){
@@ -71,7 +98,8 @@ layui.config({
 	    
 		$(".db_valuse").html(valuseHtml);
 	}
-	parserPage();
+	
+	//parserPage();
 	
 	
 	//点击详情进入部件详情页面
