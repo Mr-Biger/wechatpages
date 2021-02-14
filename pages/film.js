@@ -11,7 +11,7 @@ function copyToClip(Url2){
     document.execCommand("Copy"); // 执行浏览器复制命令
     oInput.className = 'oInput';
     oInput.style.display='none';
-    alert('复制成功');
+    alert('复制成功,粘贴到浏览器中查看.');
 }
 
 layui.config({
@@ -45,7 +45,10 @@ layui.config({
                     //渲染页面
                     if(pagevalues.subjects.length>0){
                         parserPage(pagevalues.subjects);
-                    } 
+                    } else{
+                        var valuseHtml='没有找到【'+keword+'】相关资源,换一个试试吧';
+                        $(".db_valuse").html(valuseHtml);
+                    }
                 }
             }
         }
@@ -89,7 +92,7 @@ layui.config({
                 
         for(var i=0;i<values.length;i++){
                     valuseHtml+='<tr><td>';
-			        valuseHtml += '<p>'+values[i].title+'</p>';
+			        valuseHtml += '<p><b>'+values[i].title+'</b></p>';
 			        valuseHtml += '<img src="'+values[i].images.large+'" width="200" />';
 			        valuseHtml += '<p>';
 			        var links = values[i].links;

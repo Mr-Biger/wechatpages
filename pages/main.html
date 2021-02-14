@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>首页</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../css/font_eolqem241z66flxr.css" media="all" />
+	<link rel="stylesheet" href="../css/main.css" media="all" />
+	<link rel="icon" href="favicon.ico" type="image/X-icon">
+	<link rel="shortcut icon" href="favicon.ico" type="image/X-icon">
+</head>
+<body class="childrenBody">
+	<div class="panel_box row">
+			<div class="panel col">
+			<a href="javascript:;" data-url="page/chenei/workslist/waitworksList.html">
+				<div class="panel_icon" style="background-color:#F7B824;">
+					<i class="iconfont icon-dengji1" data-icon="icon-dengji1"></i>
+				</div>
+				<div class="panel_word waitNews">
+					<span></span>
+					<cite>待完成任务</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel col">
+			<a href="javascript:;" data-url="page/chenei/workslist/outtimeworksList.html">
+				<div class="panel_icon" style="background-color:#FF5722;">
+					<i class="iconfont icon-wenben" data-icon="icon-wenben"></i>
+				</div>
+				<div class="panel_word outtimeNews">
+					<span></span>
+					<cite>已拖期任务</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel col max_panel">
+			<a href="javascript:;" data-url="page/chenei/workslist/finishworksList.html">
+				<div class="panel_icon" style="background-color:#009688;">
+					<i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i>
+				</div>
+				<div class="panel_word finishNews">
+					<span></span>
+					<cite>已完成任务</cite>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<div class="sysNotice col">
+		
+		<blockquote class="layui-elem-quote title">任务最新动态<i class="iconfont icon-new1"></i></blockquote>
+		<table class="layui-table" lay-skin="line">
+			<colgroup>
+				<col>
+				<col width="110">
+			</colgroup>
+			<tbody class="hot_news"></tbody>
+		</table> 
+	</div>
+
+	<script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>
