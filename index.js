@@ -1,5 +1,19 @@
 var DETIALID; //给子页面传参
 
+function copyToClip(Url2){
+    
+    console.log(Url2);
+    //var Url2=document.getElementById("biao1").innerText;
+    var oInput = document.createElement('input');
+    oInput.value = Url2;
+    document.body.appendChild(oInput);
+    oInput.select(); // 选择对象
+    document.execCommand("Copy"); // 执行浏览器复制命令
+    oInput.className = 'oInput';
+    oInput.style.display='none';
+    alert('复制成功');
+}
+
 layui.config({
 	base : "js/"
 }).use(['form','layer','jquery'],function(){
@@ -7,61 +21,47 @@ layui.config({
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage,
 		$ = layui.jquery;
-
- 
-	async function get_db(){
-		//渲染数据
-		
-		let values = await eel.get_XTBJ_data()();
-		console.log(values);
-		
-		let titles = await eel.get_BJ_titles()();
-		
-		var title = JSON.parse(titles);
-		var data = JSON.parse(values);
-		//top.layer.msg(data[0]['型号']);
-		//top.layer.msg(data.length);
-		var titleHtml='';
-		
-		for(var i=0;i<title.length;i++){
-					titleHtml += '<th>'+title[i]+'</th>';
-				}
-				
-		titleHtml+='<th>操 作</th>';
-		
-		var valuseHtml='';
-		
-		for(var i=0;i<data.length;i++){
-			valuseHtml+='<tr>';
-			for(var j=0;j<title.length;j++){
-				valuseHtml+= '<td>'+data[i][title[j]]+'</td>';
-			}
-			valuseHtml += '<td><a class="layui-btn layui-btn-mini news_edit" data-id="'+i+'"><i class="layui-icon icon-edit"> 详 情</a></td></tr>';
-		}
-		
-/* 		$.each(data,function(i,newImage){
-					//top.layer.msg(newImage.imageClass);
-					if(newImage.imageClass==$("#searchInfo option:selected").text()){
-						newsData=newImage.imageInfo;
-					}
-					}); */
-		//top.layer.msg(valuseHtml);
-		
-		$(".db_titles").html(titleHtml);
-		$(".db_valuse").html(valuseHtml);
-		
-	}
-	
+    
+    //init
     QueryString();
     
+    //调用api
+    function get_aliyun_db(keword) {
+        if(keword != undefined){
+            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
+            var url='https://1411798630716076.cn-shanghai.fc.aliyuncs.com/2016-08-15/proxy/Wechat/BigMove/wechat?q=';        
+            url += keword;
+            httpRequest.open('GET', url, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
+            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
+            /**
+             * 获取数据后的处理程序
+             */
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                    var json = httpRequest.responseText;//获取到json字符串，还需解析
+                    var pagevalues = JSON.parse(json);
+                    console.log(pagevalues);
+                    //return pagevalues;
+                    //渲染页面
+                    if(pagevalues.subjects.length>0){
+                        parserPage(pagevalues.subjects);
+                    } 
+                }
+            }
+        }
+
+    }
+    
+
 	//构造参数对象并初始化 
     function QueryString(){
-        console.log('QueryString');
+        ///console.log('QueryString');
         var name,value,i;
         var values=[]; 
         var str=location.href;//获得浏览器地址栏URL串 
         var num=str.indexOf("?") 
-        str=str.substr(num+1);//截取“?”后面的参数串 
+        str=str.substr(num+3);//截取“?”后面的参数串 
+        /*
         var arrtmp=str.split("&");//将各参数分离形成参数数组 
         for(i=0;i < arrtmp.length;i++)
         { 
@@ -74,32 +74,48 @@ layui.config({
                 values.push([name,value]);
             }
         }
-        console.log(values);
+        //console.log(values);
         if(values.length>0){
-            parserPage(values);
+            get_aliyun_db(values);
         }
+        */
+        //console.log(str);
+        get_aliyun_db(str);
     } 
 	
 	function parserPage(values){
-	    console.log('parserpages');
+	    //console.log('parserpages');
         var valuseHtml='';
-        
-        //var values=[['撕得粉碎当1','https://www.baidu.com'],['撕得粉碎当2','https://www.baidu.com'],['撕得粉碎当3','https://www.baidu.com']];
-        
-        
+                
         for(var i=0;i<values.length;i++){
-                    valuseHtml+='<tr>';
-			        valuseHtml += '<td>'+i+'</td>';
-			        valuseHtml += '<td>'+values[i][0]+'</td>';
-			        valuseHtml += '<td>'+values[i][1]+'</td>';
-			        valuseHtml += '<td><a class="layui-btn layui-btn-mini news_edit" data-id="'+i+'"><i class="layui-icon icon-edit">复制链接</a></td>';
-			        valuseHtml+='</tr>';
+                    valuseHtml+='<tr><td>';
+			        valuseHtml += '<p>'+values[i].title+'</p>';
+			        valuseHtml += '<img src="'+values[i].images.large+'" width="200" />';
+			        valuseHtml += '<p>';
+			        var links = values[i].links;
+			        var linksArr = links.split("$$$");
+			        for(var j=0;j<linksArr.length;j++){
+			            link=linksArr[j];
+			            if(link.indexOf("m3u8")==-1){
+			                var linkArr=link.split("$");
+			                valuseHtml += '<div><input type="button" onClick="copyToClip(\''+linkArr[1]+'\')" value= '+linkArr[0]+'点我复制链接 ></div>';
+			            }
+			        
+			        }
+			        valuseHtml += '</p>';
+			        
+			        //valuseHtml += '<td>'+values[i].links+'</td>';
+			        //valuseHtml += '<td><img src="'+values[i].images.large+'"></td>';
+			        //valuseHtml += '<td><a class="layui-btn layui-btn-mini news_edit" data-id="'+i+'"><i class="layui-icon icon-edit">复制链接</a></td>';
+			        //valuseHtml += '<td><button onclick="copyToClip("'+values[i].images.large+'")"> Copy </button></td>';
+			        
+			        
+			        valuseHtml+='</td></tr>';
 		        }
-	    
+	    console.log(valuseHtml);
 		$(".db_valuse").html(valuseHtml);
 	}
 	
-	//parserPage();
 	
 	
 	//点击详情进入部件详情页面
@@ -124,8 +140,6 @@ layui.config({
 			layui.layer.full(index);
 		})
 		layui.layer.full(index);
-		
-		
+
 	})
- 	
 })
