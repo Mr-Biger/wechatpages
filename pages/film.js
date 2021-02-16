@@ -100,8 +100,12 @@ layui.config({
 			        for(var j=0;j<linksArr.length;j++){
 			            link=linksArr[j];
 			            if(link.indexOf("m3u8")==-1){
-			                var linkArr=link.split("$");
-			                valuseHtml += '<div><input type="button" onClick="copyToClip(\''+linkArr[1]+'\')" value= '+linkArr[0]+'点我复制链接 ></div>';
+			                var urlArr=link.split("#");
+			                for(var k=0;k<urlArr.length;k++){
+			                    var linkArr=urlArr[k].split("$");
+			                    valuseHtml += '<div><input type="button" onClick="copyToClip(\''+linkArr[1]+'\')" value= '+linkArr[0]+'点我复制链接 ></div>';			                
+			                }
+
 			            }
 			        
 			        }
