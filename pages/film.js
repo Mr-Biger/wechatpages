@@ -46,7 +46,7 @@ layui.config({
                     if(pagevalues.subjects.length>0){
                         parserPage(pagevalues.subjects);
                     } else{
-                        var valuseHtml='没有找到【'+keword+'】相关资源,换一个试试吧';
+                        var valuseHtml='没有找到相关资源,我们会尽快修复.<br>请确保名称正确,换一个试试.';
                         $(".db_valuse").html(valuseHtml);
                     }
                 }
